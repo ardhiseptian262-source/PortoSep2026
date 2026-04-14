@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import LiveClock from './LiveClock'
 import { Menu, X } from 'lucide-react'
 
 interface NavbarProps {
@@ -25,8 +26,8 @@ export default function Navbar({ onNavigate }: NavbarProps) {
 
   return (
     <nav className="glass fixed top-0 w-full z-50 border-b border-slate-700 neon-glow">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2 hover:scale-110 transition-transform duration-300 cursor-pointer">
             <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center hover:shadow-lg hover:shadow-accent/50 transition-all">
@@ -35,28 +36,47 @@ export default function Navbar({ onNavigate }: NavbarProps) {
             <span className="font-bold text-xl hidden sm:inline accent-glow">Portfolio</span>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
-            {navItems.map((item, idx) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className="text-gray-300 hover:text-accent transition-all duration-200 text-sm font-medium hover:translate-y-[-2px] transform relative group animate-fade-in"
-                style={{ animationDelay: `${idx * 0.05}s` }}
-              >
-                {item.label}
-                <span className="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
-              </button>
-            ))}
+          {/* Center navigation (shown on large screens only) */}
+          <div className="flex-1 flex justify-center">
+            <div className="hidden lg:flex space-x-6 whitespace-nowrap">
+              {navItems.map((item, idx) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  className="text-gray-300 hover:text-accent transition-all duration-200 text-sm font-medium transform relative group animate-fade-in"
+                  style={{ animationDelay: `${idx * 0.05}s` }}
+                >
+                  {item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* CTA Button */}
-          <button
-            onClick={() => handleNavClick('contact')}
-            className="hidden sm:block px-6 py-2 bg-accent text-white rounded-lg hover:bg-blue-600 transition-all duration-300 font-medium neon-glow hover:shadow-lg hover:shadow-accent/50 hover:scale-105 transform"
-          >
-            Contact Me
-          </button>
+          {/* Right actions: Contact + Clock + Mobile button */}
+          <div className="flex items-center space-x-3 ml-auto">
+            <div className="hidden md:flex items-center space-x-3">
+              <button
+                onClick={() => handleNavClick('contact')}
+                className="px-4 py-2 bg-accent text-white rounded-md hover:bg-blue-600 transition-all duration-200 text-sm font-medium neon-glow"
+              >
+                Contact
+              </button>
+
+              <div className="flex items-center pl-4 border-l border-slate-700">
+                <LiveClock />
+              </div>
+            </div>
+
+            {/* Mobile Menu Button (visible below large) */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden p-2 rounded-lg hover:bg-secondary transition-all hover:scale-110 transform"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={24} className="animate-rotate-slow" /> : <Menu size={24} />}
+            </button>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -69,7 +89,7 @@ export default function Navbar({ onNavigate }: NavbarProps) {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden pb-4 space-y-2 animate-slide-down">
+          <div className="lg:hidden pb-4 space-y-2 animate-slide-down">
             {navItems.map((item, idx) => (
               <button
                 key={item.id}
@@ -86,6 +106,9 @@ export default function Navbar({ onNavigate }: NavbarProps) {
             >
               Contact Me
             </button>
+            <div className="pt-3 border-t border-slate-700 px-4">
+              <LiveClock />
+            </div>
           </div>
         )}
       </div>

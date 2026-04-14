@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import LiveClock from './LiveClock'
 
 export default function VisitorCounter() {
   const [visitorCount, setVisitorCount] = useState(0)
@@ -28,19 +29,25 @@ export default function VisitorCounter() {
 
   if (isLoading) {
     return (
-      <div className="text-slate-400 text-sm">
-        <span className="text-accent">👥</span> Visitors: <span className="font-semibold">...</span>
+      <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="text-slate-400 text-sm">
+          <span className="text-accent">👥</span> Visitors: <span className="font-semibold">...</span>
+        </div>
+        <LiveClock />
       </div>
     )
   }
 
   return (
-    <div className="text-slate-300 text-sm hover:text-accent transition-colors cursor-pointer group">
-      <span className="text-accent group-hover:scale-110 transition-transform inline-block">👥</span>
-      {' '}Visitors:{' '}
-      <span className="font-semibold text-accent group-hover:text-blue-400 transition-colors">
-        {visitorCount.toLocaleString()}
-      </span>
+    <div className="flex flex-col sm:flex-row items-center gap-3 justify-between">
+      <div className="text-slate-300 text-sm hover:text-accent transition-colors cursor-pointer group">
+        <span className="text-accent group-hover:scale-110 transition-transform inline-block">👥</span>
+        {' '}Visitors:{' '}
+        <span className="font-semibold text-accent group-hover:text-blue-400 transition-colors">
+          {visitorCount.toLocaleString()}
+        </span>
+      </div>
+      <LiveClock />
     </div>
   )
 }

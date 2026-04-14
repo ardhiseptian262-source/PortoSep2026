@@ -45,7 +45,7 @@ function App() {
     <div className="min-h-screen bg-primary text-gray-100">
       <Navbar onNavigate={scrollToSection} />
       
-      <main>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <section id="home">
           <Hero />
         </section>
